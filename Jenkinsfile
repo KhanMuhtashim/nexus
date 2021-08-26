@@ -18,7 +18,7 @@ pipeline {
                 }
             }
         }
-        stage("Nexus Deployment") {
+        stage("Deployment") {
             steps {
                 script {
                     nexusArtifactUploader artifacts: [
