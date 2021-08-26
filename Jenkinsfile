@@ -11,7 +11,7 @@ pipeline {
         NEXUS_CREDENTIAL_ID = "1314288f-e205-445b-a56c-dce2cf3f28dd"
     }
     stages {
-        stage("Build") {
+        stage("Maven Build") {
             steps {
                 script {
                     bat 'mvn clean package'
