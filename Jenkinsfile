@@ -1,4 +1,4 @@
-def artifact_name = 'my-app-1.0.0.jar'
+def artifact_name = 'target/my-app-1.0.0.jar'
 def bucket_name = "nexus-nbs"
 def aws_credentials_id = 'aws'
 def aws_region = 'us-east-1'
