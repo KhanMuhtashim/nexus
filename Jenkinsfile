@@ -1,3 +1,7 @@
+def artifact_name = 'my-app-1.0.0.jar'
+def bucket_name = "nexus-nbs"
+def aws_credentials_id = 'aws'
+def aws_region = 'us-east-1'
 pipeline {
     agent any
     tools {
@@ -37,6 +41,20 @@ pipeline {
                     repository: 'simpleapp-release', 
                     version: '1.0.0'
                 }
+            }
+        }
+        stage("Deploying To S3") {
+            input {
+                message "Wants To Deploy to Production?"
+            }
+            steps {
+                withEnv([
+                "AWS_SESSION_TOKEN=${env.AWS_SESSION_TOKEN}"]) {
+                    withAWS(region: "${aws_region}", credentials: "${aws_credentials_id}") {
+                    s3Upload(bucket: "${bucket_name}", file: "${artifact_name}");
+                    }
+                }
+                    
             }
         }
     }
