@@ -1,3 +1,7 @@
+def artifact_name = 'my-app-1.0.0.jar'
+def bucket_name = "nexus-nbs"
+def aws_credentials_id = 'aws'
+def aws_region = 'us-east-1'
 pipeline {
     agent any
     tools {
@@ -6,7 +10,7 @@ pipeline {
     environment {
         NEXUS_VERSION = "nexus3.33"
         NEXUS_PROTOCOL = "http"
-        NEXUS_URL = "http://54.83.73.70:8081"
+        NEXUS_URL = "http://54.242.112.97:8081"
         NEXUS_REPOSITORY = "simpleapp-release"
         NEXUS_CREDENTIAL_ID = "1314288f-e205-445b-a56c-dce2cf3f28dd"
     }
@@ -31,12 +35,26 @@ pipeline {
                     ], 
                     credentialsId: 'nexus', 
                     groupId: 'com.mycompany.app', 
-                    nexusUrl: '54.83.73.70:8081', 
+                    nexusUrl: '54.242.112.97:8081', 
                     nexusVersion: 'nexus3', 
                     protocol: 'http', 
                     repository: 'simpleapp-release', 
                     version: '1.0.0'
                 }
+            }
+        }
+        stage("Deploying To S3") {
+            input {
+                message "Wants To Deploy to Production?"
+            }
+            steps {
+                withEnv([
+                "AWS_SESSION_TOKEN=${env.AWS_SESSION_TOKEN}"]) {
+                    withAWS(region: "${aws_region}", credentials: "${aws_credentials_id}") {
+                    s3Upload(bucket: "${bucket_name}", file: "${artifact_name}");
+                    }
+                }
+                    
             }
         }
     }
