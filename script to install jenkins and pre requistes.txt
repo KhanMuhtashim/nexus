@@ -1,0 +1,23 @@
+1- Install & Configure AWS CLI
+-----------------------------------------------------------------------------------------------------------------
+2- Download java jdk from S3 to specific directory
+aws s3 cp s3://muhtashim-jenkins/Java/jdk-8u301-windows-x64.exe java\jdk\
+-----------------------------------------------------------------------------------------------------------------
+3- Change Directory to where JDK was downloaded
+cd java\jdk
+-----------------------------------------------------------------------------------------------------------------
+4- Download Jdk Configurations File
+aws s3 cp s3://muhtashim-jenkins/Java/jdk-install-options.properties jdk-install-options.properties
+-----------------------------------------------------------------------------------------------------------------
+5- Install JDK
+jdk-8u301-windows-x64.exe INSTALLCFG=jdk-install-options.properties
+-----------------------------------------------------------------------------------------------------------------
+6- Change to Directory C
+cd C:\
+-----------------------------------------------------------------------------------------------------------------
+7- Download Jenkins War
+aws s3 cp s3://muhtashim-jenkins/Jenkins/jenkins.war jenkins.war
+-----------------------------------------------------------------------------------------------------------------
+8- Run Jenkins
+java -jar jenkins.war -Djenkins.install.runSetupWizard=false
+-----------------------------------------------------------------------------------------------------------------
